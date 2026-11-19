@@ -143,18 +143,53 @@ function Shell({ membro, email }) {
   const isAdmin = String(membro.papel).toLowerCase() === 'admin'
   const [prof, setProf] = useState(papelBase || 'auxiliar')
   const [view, setView] = useState('painel')
-  const [comp, setComp] = useState(38420)
+  const [comp, setComp] = useState(0)
   const [fil, setFil] = useState('todos')
   const [AP, setAP] = useState(AP0)
   const [IT, setIT] = useState(IT0)
   const [toastMsg, setToastMsg] = useState('')
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 30000); return () => clearInterval(t) }, [])
+  const [db, setDb] = useState({ ok: false, erro: '', par: null, serv: [], apr: [], cil: [] })
+  useEffect(() => {
+    let vivo = true
+    async function carregar() {
+      const d = new Date()
+      const mes = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-01'
+      const [p, s, a, c, g] = await Promise.all([
+        supabase.from('parametros_financeiros').select('teto,mao_obra_fixa,saldo_livre').eq('mes', mes).maybeSingle(),
+        supabase.from('servicos_especiais').select('id,titulo,status,valor_previsto'),
+        supabase.from('aprovacoes').select('id,tipo,nivel,papel_requerido,status,servico_id').eq('status', 'pendente'),
+        supabase.from('cilindros').select('codigo_crer,proprietario,gas_tipo_id,validade_teste').order('validade_teste'),
+        supabase.from('gases_tipos').select('id,sigla')
+      ])
+      if (!vivo) return
+      const erro = [p, s, a, c, g].map(r => r.error && r.error.message).filter(Boolean).join(' | ')
+      const gm = {}; (g.data || []).forEach(x => { gm[x.id] = x.sigla })
+      setDb({
+        ok: true, erro, par: p.data, serv: s.data || [], apr: a.data || [],
+        cil: (c.data || []).filter(x => x.validade_teste).map(x => ({ ...x, gas: gm[x.gas_tipo_id] || '—' }))
+      })
+    }
+    carregar()
+    return () => { vivo = false }
+  }, [])
 
   const toast = m => { setToastMsg(m); setTimeout(() => setToastMsg(''), 2200) }
   const pr = P[prof], lv = pr.lvl
   const v = pr.nav.includes(view) ? view : 'painel'
-  const disp = LIVRE - comp
+  const EM_CURSO = ['em_andamento', 'em_execucao', 'em_medicao']
+  const teto = db.par ? Number(db.par.teto) : TETO
+  const mo = db.par ? Number(db.par.mao_obra_fixa) : MO
+  const livre = db.par ? Number(db.par.saldo_livre) : LIVRE
+  const comprometido = db.serv.filter(x => EM_CURSO.includes(x.status)).reduce((s, x) => s + Number(x.valor_previsto || 0), 0) + comp
+  const disp = livre - comprometido
+  const dias = d => Math.ceil((new Date(d + 'T00:00:00') - new Date().setHours(0, 0, 0, 0)) / 86400000)
+  const cil30 = db.cil.filter(x => dias(x.validade_teste) <= 30).length
+  const cilRows = db.cil.slice(0, 8).map(x => {
+    const n = dias(x.validade_teste)
+    return (<tr key={x.codigo_crer}><td>{x.codigo_crer}</td><td>{x.gas}</td><td>{x.proprietario === 'ibg' ? 'IBG' : 'Unidade'}</td><td><span className={'bd ' + (n <= 15 ? 'd' : n <= 30 ? 'w' : '')}>{n} dias</span></td></tr>)
+  })
   const mine = a => lv && a.f[a.i] === lv
   const setItem = (k, patch) => setIT(IT.map((x, j) => j === k ? { ...x, ...patch } : x))
 
@@ -183,17 +218,32 @@ function Shell({ membro, email }) {
     </div>
   )
 
+  const AprDb = ({ so }) => {
+    const l = db.apr.filter(x => !so || x.papel_requerido === lv)
+    if (!l.length) return <div className="hint">Nenhuma aprovação pendente.</div>
+    return l.map(x => {
+      const s = db.serv.find(y => y.id === x.servico_id)
+      return (
+        <div className="ap" key={x.id}>
+          <div className="t">
+            <div><span className="bd l">{x.tipo}</span> <b>{s ? s.titulo : '—'}</b>
+              <div className="hint">Nível {x.nivel} · aguarda {FL[x.papel_requerido] || x.papel_requerido}</div></div>
+            <b className="mono">{s ? fmt(Number(s.valor_previsto)) : '—'}</b>
+          </div>
+        </div>)
+    })
+  }
   const Kpis = () => {
-    const pc = Math.min(100, comp / LIVRE * 100), me = AP.filter(mine).length
+    const pc = livre > 0 ? Math.min(100, Math.max(0, comprometido / livre * 100)) : 100, me = db.apr.filter(x => x.papel_requerido === lv).length
     return (
       <div className="grid k4">
         <div className="card"><div className="kl">Saldo livre do mês</div>
           <div className="kv mono" style={{ color: disp < 0 ? 'var(--cor)' : 'var(--lime)' }}>{fmt(disp)}</div>
           <div className={'bar ' + (pc > 85 ? 'd' : pc > 60 ? 'w' : '')}><i style={{ width: pc + '%' }} /></div>
-          <div className="ks">Teto {fmt(TETO)} − mão de obra {fmt(MO)} = {fmt(LIVRE)}<br />Comprometido: {fmt(comp)}</div></div>
+          <div className="ks">Teto {fmt(teto)} − mão de obra {fmt(mo)} = {fmt(livre)}<br />Comprometido: {fmt(comprometido)}</div></div>
         <div className="card"><div className="kl">Aprovações pendentes</div>
-          <div className="kv">{lv === 'analista' ? AP.length : me}</div>
-          <div className="ks">{lv === 'analista' ? `${me} para você validar` : `aguardam a sua aprovação · ${AP.length - me} em outros níveis`}</div></div>
+          <div className="kv">{lv === 'analista' ? db.apr.length : me}</div>
+          <div className="ks">{lv === 'analista' ? `${me} para você validar` : `aguardam a sua aprovação · ${db.apr.length - me} em outros níveis`}</div></div>
         <div className="card"><div className="kl">Prazo da medição</div>
           <div className="kv">{left(nextD(1, 14))}</div><div className="ks">envio até dia 1 · 14h</div>
           <div className="ks" style={{ marginTop: 6 }}>Fechamento: <b style={{ color: 'var(--amb)' }}>{left(nextD(5, 13))}</b> (dia 5 · 13h)</div></div>
@@ -223,7 +273,7 @@ function Shell({ membro, email }) {
       {prof === 'analista' ? (
         <div className="grid c2">
           <div className="card"><h2>Aprovações pendentes <span className="hint">você valida; supervisor e gerente aprovam</span></h2>
-            {AP.length ? AP.map(a => <ApCard key={a.id} a={a} act />) : <div className="hint">Nada pendente.</div>}</div>
+            <AprDb /></div>
           <div>
             <div className="card"><h2>Fila de conferência</h2>
               <div className="st"><span>A conferir</span><div className="bar"><i style={{ width: nP / IT.length * 100 + '%' }} /></div><b>{nP}</b></div>
@@ -240,12 +290,12 @@ function Shell({ membro, email }) {
         </div>
       ) : (
         <div className="grid c2">
-          <div className="card"><h2>Só você aprova <span className="bd l">{AP.filter(mine).length} para {FL[lv]}</span></h2>
-            {AP.filter(mine).length ? AP.filter(mine).map(a => <ApCard key={a.id} a={a} act />) : <div className="hint">Nenhuma aprovação aguardando você.</div>}</div>
+          <div className="card"><h2>Só você aprova <span className="bd l">{db.apr.filter(x => x.papel_requerido === lv).length} para {FL[lv]}</span></h2>
+            <AprDb so /></div>
           <div><Status />
             <div className="card"><h2>Atrasos e alertas</h2>
               <div className="al w">Medição: 3 itens devolvidos há mais de 48h</div>
-              <div className="al w">4 cilindros com teste hidrostático a vencer em 30 dias</div>
+              <div className="al w">{cil30} cilindro(s) com teste hidrostático a vencer em 30 dias</div>
               <div className="al">Indicador III abaixo da meta (96,04% &lt; 98%)</div></div></div>
         </div>
       )}
@@ -278,12 +328,12 @@ function Shell({ membro, email }) {
           <label>Tempo parado (minutos)</label><input className="in" type="number" defaultValue={0} style={{ margin: '6px 0 10px' }} />
           <label>Atividades do dia</label><textarea className="in" rows={3} style={{ marginTop: 6 }} />
           <div className="row" style={{ marginTop: 10 }}><button className="btn g" onClick={() => toast('Foto anexada')}>Anexar foto</button><button className="btn" onClick={() => toast('Diário salvo')}>Salvar diário</button></div></div>
-        <div className="card"><h2>Cilindros a vencer · 66 no total</h2>
+        <div className="card"><h2>Cilindros a vencer · {db.cil.length} no total</h2>
           <table><thead><tr><th>Código</th><th>Gás</th><th>Dono</th><th>Teste vence</th></tr></thead><tbody>
-            <tr><td>CRER-O2-014</td><td>O₂</td><td>IBG</td><td><span className="bd d">12 dias</span></td></tr>
-            <tr><td>CRER-O2-031</td><td>O₂</td><td>Unidade</td><td><span className="bd w">24 dias</span></td></tr>
-            <tr><td>CRER-N2O-003</td><td>N₂O</td><td>Unidade</td><td><span className="bd w">29 dias</span></td></tr>
-            <tr><td>CRER-AR-009</td><td>Ar comp.</td><td>IBG</td><td><span className="bd w">30 dias</span></td></tr>
+            {cilRows}
+            
+            
+            
           </tbody></table><br /><button className="btn" onClick={() => toast('Leitor de QR/serial aberto')}>Ler cilindro</button></div>
       </div>
     )
@@ -391,6 +441,8 @@ function Shell({ membro, email }) {
       </aside>
       <main>
         <h1>{titulo}</h1><div className="sub">{sub}</div>
+        {db.erro && <div className="al">Erro ao ler o banco: {db.erro}</div>}
+        {db.ok && !db.par && <div className="al w">Sem linha em parametros_financeiros para este mês.</div>}
         {v === 'painel' && <Painel />}
         {v === 'aprov' && (<>
           <div className="card"><h2>Aguardando você</h2>{AP.filter(mine).length ? AP.filter(mine).map(a => <ApCard key={a.id} a={a} act />) : <div className="hint">Nada aguardando você.</div>}</div>
