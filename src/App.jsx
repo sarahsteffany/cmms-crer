@@ -150,6 +150,10 @@ function Shell({ membro, email }) {
   const [toastMsg, setToastMsg] = useState('')
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 30000); return () => clearInterval(t) }, [])
+  const [rec, setRec] = useState(0)
+  const [devId, setDevId] = useState(null)
+  const [motivo, setMotivo] = useState({})
+  const [busy, setBusy] = useState(null)
   const [db, setDb] = useState({ ok: false, erro: '', par: null, serv: [], apr: [], cil: [] })
   useEffect(() => {
     let vivo = true
@@ -159,7 +163,7 @@ function Shell({ membro, email }) {
       const [p, s, a, c, g] = await Promise.all([
         supabase.from('parametros_financeiros').select('teto,mao_obra_fixa,saldo_livre').eq('mes', mes).maybeSingle(),
         supabase.from('servicos_especiais').select('id,titulo,status,valor_previsto'),
-        supabase.from('aprovacoes').select('id,tipo,nivel,papel_requerido,status,servico_id').eq('status', 'pendente'),
+        supabase.from('aprovacoes').select('id,tipo,nivel,papel_requerido,status,servico_id,registro_id').eq('status', 'pendente').order('nivel'),
         supabase.from('cilindros').select('codigo_crer,proprietario,gas_tipo_id,validade_teste').order('validade_teste'),
         supabase.from('gases_tipos').select('id,sigla')
       ])
@@ -173,7 +177,7 @@ function Shell({ membro, email }) {
     }
     carregar()
     return () => { vivo = false }
-  }, [])
+  }, [rec])
 
   const toast = m => { setToastMsg(m); setTimeout(() => setToastMsg(''), 2200) }
   const pr = P[prof], lv = pr.lvl
@@ -218,11 +222,30 @@ function Shell({ membro, email }) {
     </div>
   )
 
-  const AprDb = ({ so }) => {
-    const l = db.apr.filter(x => !so || x.papel_requerido === lv)
+  const minhaDb = x => !!lv && x.papel_requerido === lv
+
+  async function decidirDb(x, ok) {
+    const parecer = (motivo[x.id] || '').trim()
+    if (!ok && !parecer) { toast('Informe o motivo da devolução'); return }
+    setBusy(x.id)
+    const { data, error } = await supabase.from('aprovacoes')
+      .update({ status: ok ? 'aprovado' : 'rejeitado', aprovador_id: membro.id, parecer: ok ? null : parecer })
+      .eq('id', x.id).eq('status', 'pendente').select('id')
+    setBusy(null)
+    if (error) { toast(error.message); return }
+    if (!data || !data.length) { toast('Sem permissão ou já decidida'); setRec(r => r + 1); return }
+    setDevId(null)
+    setMotivo(m => ({ ...m, [x.id]: '' }))
+    toast(ok ? 'Aprovação gravada' : 'Devolvido, motivo registrado')
+    setRec(r => r + 1)
+  }
+
+  const aprDb = modo => {
+    const l = db.apr.filter(x => modo === 'minhas' ? minhaDb(x) : modo === 'outras' ? !minhaDb(x) : true)
     if (!l.length) return <div className="hint">Nenhuma aprovação pendente.</div>
     return l.map(x => {
       const s = db.serv.find(y => y.id === x.servico_id)
+      const trava = db.apr.some(y => y.servico_id === x.servico_id && y.registro_id === x.registro_id && y.tipo === x.tipo && y.nivel < x.nivel)
       return (
         <div className="ap" key={x.id}>
           <div className="t">
@@ -230,6 +253,20 @@ function Shell({ membro, email }) {
               <div className="hint">Nível {x.nivel} · aguarda {FL[x.papel_requerido] || x.papel_requerido}</div></div>
             <b className="mono">{s ? fmt(Number(s.valor_previsto)) : '—'}</b>
           </div>
+          {minhaDb(x) && (trava
+            ? <div className="al w">Aguardando o nível anterior aprovar.</div>
+            : devId === x.id
+              ? <div>
+                <textarea className="in" rows={2} placeholder="Motivo da devolução (obrigatório)" value={motivo[x.id] || ''} onChange={e => setMotivo({ ...motivo, [x.id]: e.target.value })} />
+                <div className="row" style={{ marginTop: 8 }}>
+                  <button className="btn r" disabled={busy === x.id} onClick={() => decidirDb(x, false)}>Confirmar devolução</button>
+                  <button className="btn g" onClick={() => setDevId(null)}>Cancelar</button>
+                </div>
+              </div>
+              : <div className="row">
+                <button className="btn" disabled={busy === x.id} onClick={() => decidirDb(x, true)}>Aprovar{x.nivel === 0 ? ' (validar)' : ''}</button>
+                <button className="btn r" disabled={busy === x.id} onClick={() => setDevId(x.id)}>Devolver</button>
+              </div>)}
         </div>)
     })
   }
@@ -273,7 +310,7 @@ function Shell({ membro, email }) {
       {prof === 'analista' ? (
         <div className="grid c2">
           <div className="card"><h2>Aprovações pendentes <span className="hint">você valida; supervisor e gerente aprovam</span></h2>
-            <AprDb /></div>
+            {aprDb('todas')}</div>
           <div>
             <div className="card"><h2>Fila de conferência</h2>
               <div className="st"><span>A conferir</span><div className="bar"><i style={{ width: nP / IT.length * 100 + '%' }} /></div><b>{nP}</b></div>
@@ -291,7 +328,7 @@ function Shell({ membro, email }) {
       ) : (
         <div className="grid c2">
           <div className="card"><h2>Só você aprova <span className="bd l">{db.apr.filter(x => x.papel_requerido === lv).length} para {FL[lv]}</span></h2>
-            <AprDb so /></div>
+            {aprDb('minhas')}</div>
           <div><Status />
             <div className="card"><h2>Atrasos e alertas</h2>
               <div className="al w">Medição: 3 itens devolvidos há mais de 48h</div>
@@ -435,7 +472,7 @@ function Shell({ membro, email }) {
             {Object.keys(P).map(k => <option key={k} value={k}>{P[k].n}</option>)}</select></div>}
         <nav>{pr.nav.map(n => (
           <button key={n} className={v === n ? 'on' : ''} onClick={() => setView(n)}>{NL[n]}
-            {n === 'aprov' && <span className="bd l" style={{ marginLeft: 'auto' }}>{AP.filter(mine).length}</span>}</button>))}</nav>
+            {n === 'aprov' && <span className="bd l" style={{ marginLeft: 'auto' }}>{db.apr.filter(minhaDb).length}</span>}</button>))}</nav>
         <div className="user"><div className="av">{pr.i}</div>
           <div>{membro.nome || email}<br /><span>{pr.n}</span><br /><button className="out" onClick={() => supabase.auth.signOut()}>Sair</button></div></div>
       </aside>
@@ -445,8 +482,8 @@ function Shell({ membro, email }) {
         {db.ok && !db.par && <div className="al w">Sem linha em parametros_financeiros para este mês.</div>}
         {v === 'painel' && <Painel />}
         {v === 'aprov' && (<>
-          <div className="card"><h2>Aguardando você</h2>{AP.filter(mine).length ? AP.filter(mine).map(a => <ApCard key={a.id} a={a} act />) : <div className="hint">Nada aguardando você.</div>}</div>
-          <div className="card"><h2>Em outros níveis</h2>{AP.filter(a => !mine(a)).length ? AP.filter(a => !mine(a)).map(a => <ApCard key={a.id} a={a} />) : <div className="hint">Vazio.</div>}</div>
+          <div className="card"><h2>Aguardando você</h2>{aprDb('minhas')}</div>
+          <div className="card"><h2>Em outros níveis</h2>{aprDb('outras')}</div>
         </>)}
         {v === 'medicao' && <Medicao />}
         {v === 'servico' && <Servico />}
@@ -468,7 +505,7 @@ export default function App() {
 
   useEffect(() => {
     if (!sessao) { setMembro(undefined); return }
-    supabase.from('membros').select('nome,papel').eq('user_id', sessao.user.id).eq('ativo', true).maybeSingle()
+    supabase.from('membros').select('id,nome,papel').eq('user_id', sessao.user.id).eq('ativo', true).maybeSingle()
       .then(({ data }) => setMembro(data || null))
   }, [sessao])
 
