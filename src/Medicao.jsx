@@ -25,12 +25,12 @@ const primeiroDia = (ym) => `${ym}-01`;
 const hoje = () => new Date().toISOString().slice(0, 10);
 
 const s = {
-  box: { border: '1px solid #d9dee5', borderRadius: 8, padding: 12, marginBottom: 12, background: '#fff' },
-  th: { textAlign: 'left', padding: 6, borderBottom: '1px solid #d9dee5', fontSize: 12, background: '#f4f6f9' },
-  td: { padding: 6, borderBottom: '1px solid #eef0f3', fontSize: 13 },
-  btn: { padding: '6px 10px', borderRadius: 6, border: '1px solid #1F3A5F', background: '#1F3A5F', color: '#fff', cursor: 'pointer', marginRight: 6, fontSize: 12 },
-  btn2: { padding: '6px 10px', borderRadius: 6, border: '1px solid #1F3A5F', background: '#fff', color: '#1F3A5F', cursor: 'pointer', marginRight: 6, fontSize: 12 },
-  inp: { padding: 5, border: '1px solid #c5ccd6', borderRadius: 6, fontSize: 13 },
+  box: { border: '1px solid rgba(255,255,255,.12)', borderRadius: 8, padding: 12, marginBottom: 12, background: 'rgba(255,255,255,.04)', color: 'inherit' },
+  th: { textAlign: 'left', padding: 6, borderBottom: '1px solid rgba(255,255,255,.15)', fontSize: 12, background: 'rgba(255,255,255,.06)', color: 'inherit' },
+  td: { padding: 6, borderBottom: '1px solid rgba(255,255,255,.08)', fontSize: 13, color: 'inherit' },
+  btn: { padding: '6px 10px', borderRadius: 6, border: '1px solid #c4f135', background: '#c4f135', color: '#0d0e12', fontWeight: 600, cursor: 'pointer', marginRight: 6, fontSize: 12 },
+  btn2: { padding: '6px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,.3)', background: 'transparent', color: 'inherit', cursor: 'pointer', marginRight: 6, fontSize: 12 },
+  inp: { padding: 5, border: '1px solid rgba(255,255,255,.2)', borderRadius: 6, fontSize: 13, background: 'rgba(255,255,255,.06)', color: 'inherit', colorScheme: 'dark' },
 };
 
 export default function Medicao({ supabase, papel, usuarioId, tenantId }) {
@@ -128,7 +128,7 @@ export default function Medicao({ supabase, papel, usuarioId, tenantId }) {
     <div style={{ padding: 16, maxWidth: 1100 }}>
       <h2 style={{ marginBottom: 8 }}>Medições</h2>
       {msg && (
-        <div style={{ ...s.box, borderColor: msg.erro ? '#c0392b' : '#2e8b57', color: msg.erro ? '#c0392b' : '#2e8b57' }}>
+        <div style={{ ...s.box, borderColor: msg.erro ? '#ff6b6b' : '#4ade80', color: msg.erro ? '#ff6b6b' : '#4ade80' }}>
           {msg.t}
         </div>
       )}
@@ -170,7 +170,7 @@ export default function Medicao({ supabase, papel, usuarioId, tenantId }) {
           </thead>
           <tbody>
             {lista.map((m) => (
-              <tr key={m.id} style={{ background: sel?.id === m.id ? '#eef4ff' : 'transparent' }}>
+              <tr key={m.id} style={{ background: sel?.id === m.id ? 'rgba(196,241,53,.10)' : 'transparent' }}>
                 <td style={s.td}>{String(m.mes_referencia).slice(0, 7)}</td>
                 <td style={s.td}>{TIPOS[m.tipo] || m.tipo}</td>
                 <td style={s.td}>{m.status}</td>
@@ -198,7 +198,7 @@ export default function Medicao({ supabase, papel, usuarioId, tenantId }) {
               <div style={{ marginTop: 8 }}>
                 Valor medido: <input type="number" step="0.01" value={vm} onChange={(e) => setVm(e.target.value)} style={s.inp} />{' '}
                 <button style={s.btn} onClick={salvarValorMedido}>Gravar</button>
-                <small style={{ marginLeft: 8, color: '#667' }}>
+                <small style={{ marginLeft: 8, color: '#9aa3b2' }}>
                   Reforma, compra e serviço especial: use o valor do orçamento ou pedido aprovado.
                 </small>
               </div>
