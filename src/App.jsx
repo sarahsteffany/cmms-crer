@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import * as sb from './supabase'
+import MedicaoTela from './Medicao'
+import ServicosTela from './Servicos'
+import DiarioTela from './Diario'
 const supabase = sb.supabase || sb.default
 
 const CSS = `
@@ -70,14 +73,14 @@ const fmt = v => v == null ? '—' : v.toLocaleString('pt-BR', { style: 'currenc
 const TETO = 180000, MO = 129000, LIVRE = TETO - MO
 const FL = { analista: 'Analistas', supervisor: 'Supervisor', gerente: 'Gerente' }
 const P = {
-  gerente: { n: 'Gerente de Infraestrutura', i: 'GI', lvl: 'gerente', nav: ['painel', 'aprov', 'medicao', 'servico'] },
-  supervisor: { n: 'Supervisor de Infraestrutura', i: 'SI', lvl: 'supervisor', nav: ['painel', 'aprov', 'medicao', 'servico'] },
-  analista: { n: 'Analista de Manutenção', i: 'AM', lvl: 'analista', nav: ['painel', 'medicao', 'servico'] },
-  assistente: { n: 'Assistente Administrativo', i: 'AA', nav: ['painel', 'servico'] },
-  auxiliar: { n: 'Auxiliar de Manutenção', i: 'AX', nav: ['painel', 'servico'] },
-  terceira: { n: 'Empresa terceira (ORBIS)', i: 'OR', nav: ['painel', 'medicao'] }
+  gerente: { n: 'Gerente de Infraestrutura', i: 'GI', lvl: 'gerente', nav: ['painel', 'aprov', 'medicao', 'servicos', 'diario'] },
+  supervisor: { n: 'Supervisor de Infraestrutura', i: 'SI', lvl: 'supervisor', nav: ['painel', 'aprov', 'medicao', 'servicos', 'diario'] },
+  analista: { n: 'Analista de Manutenção', i: 'AM', lvl: 'analista', nav: ['painel', 'medicao', 'servicos', 'diario'] },
+  assistente: { n: 'Assistente Administrativo', i: 'AA', nav: ['painel', 'servicos'] },
+  auxiliar: { n: 'Auxiliar de Manutenção', i: 'AX', nav: ['painel', 'servicos', 'diario'] },
+  terceira: { n: 'Empresa terceira (ORBIS)', i: 'OR', nav: ['painel', 'medicao', 'diario'] }
 }
-const NL = { painel: 'Painel', aprov: 'Aprovações', medicao: 'Medição', servico: 'Serviço' }
+const NL = { painel: 'Painel', aprov: 'Aprovações', medicao: 'Medição', servicos: 'Serviços', diario: 'Diário de obra' }
 const MAPA = { admin: 'gerente', gerente: 'gerente', supervisor: 'supervisor', analista: 'analista', assistente: 'assistente', auxiliar: 'auxiliar', terceira: 'terceira', terceiro: 'terceira', fornecedor: 'terceira' }
 
 const AP0 = [
@@ -139,7 +142,7 @@ function Login() {
   )
 }
 
-function Shell({ membro, email }) {
+function Shell({ membro, email, userId }) {
   const papelBase = MAPA[String(membro.papel || '').toLowerCase()]
   const isAdmin = String(membro.papel).toLowerCase() === 'admin'
   const [prof, setProf] = useState(papelBase || 'auxiliar')
@@ -185,6 +188,7 @@ function Shell({ membro, email }) {
 
   const toast = m => { setToastMsg(m); setTimeout(() => setToastMsg(''), 2200) }
   const pr = P[prof], lv = pr.lvl
+  const papelTela = isAdmin && prof === 'gerente' ? 'admin' : prof
   const v = pr.nav.includes(view) ? view : 'painel'
   const EM_CURSO = ['em_andamento', 'em_execucao', 'em_medicao']
   const teto = db.par ? Number(db.par.teto) : TETO
@@ -484,8 +488,8 @@ function Shell({ membro, email }) {
     </>)
   }
 
-  const titulo = { painel: `Painel · ${pr.n}`, aprov: 'Aprovações', medicao: 'Medição · Setembro · Parte 2', servico: 'Mudança de layout · Ambulatório B' }[v]
-  const sub = { painel: 'Setembro/2026 · CRER · dados ilustrativos', aprov: 'Fluxo: Analistas → Supervisor → Gerente. O diretor assina o pagamento fora do sistema.', medicao: '10/09 a 30/09/2026 · e-Compras OCS04.2026.JUL.03868 · OC 206149 · BDI 25%', servico: 'Serviço especial · Prioridade alta · Coordenação de Ortopedia' }[v]
+  const titulo = { painel: `Painel · ${pr.n}`, aprov: 'Aprovações', medicao: 'Medições', servicos: 'Serviços especiais', diario: 'Diário de obra' }[v]
+  const sub = { painel: 'Setembro/2026 · CRER · dados ilustrativos', aprov: 'Fluxo: Analistas → Supervisor → Gerente. O diretor assina o pagamento fora do sistema.', medicao: 'Medição mensal, conferência e parcelas de pagamento', servicos: 'Cadastro, validação e acompanhamento', diario: 'Lançamento diário e histórico por mês' }[v]
 
   return (
     <div className="app">
@@ -509,8 +513,9 @@ function Shell({ membro, email }) {
           <div className="card"><h2>Aguardando você</h2>{aprDb('minhas')}</div>
           <div className="card"><h2>Em outros níveis</h2>{aprDb('outras')}</div>
         </>)}
-        {v === 'medicao' && Medicao()}
-        {v === 'servico' && Servico()}
+        {v === 'medicao' && <MedicaoTela supabase={supabase} papel={papelTela} usuarioId={userId} tenantId={membro.tenant_id} />}
+        {v === 'servicos' && <ServicosTela supabase={supabase} papel={papelTela} membroId={membro.id} tenantId={membro.tenant_id} />}
+        {v === 'diario' && <DiarioTela supabase={supabase} papel={papelTela} membroId={membro.id} tenantId={membro.tenant_id} />}
       </main>
       <div id="toast" className={toastMsg ? 'on' : ''}>{toastMsg}</div>
     </div>
@@ -529,7 +534,7 @@ export default function App() {
 
   useEffect(() => {
     if (!sessao) { setMembro(undefined); return }
-    supabase.from('membros').select('id,nome,papel').eq('user_id', sessao.user.id).eq('ativo', true).maybeSingle()
+    supabase.from('membros').select('id,nome,papel,tenant_id').eq('user_id', sessao.user.id).eq('ativo', true).maybeSingle()
       .then(({ data }) => setMembro(data || null))
   }, [sessao])
 
@@ -539,8 +544,6 @@ export default function App() {
       : !sessao ? <Login />
         : membro === undefined ? <div className="login"><span className="hint">Carregando perfil…</span></div>
           : !membro ? <div className="login"><div className="card">Sem vínculo no CRER. Peça ao administrador.<br /><br /><button className="btn" onClick={() => supabase.auth.signOut()}>Sair</button></div></div>
-            : <Shell membro={membro} email={sessao.user.email} />}
+            : <Shell membro={membro} email={sessao.user.email} userId={sessao.user.id} />}
   </>)
 }
-
-
