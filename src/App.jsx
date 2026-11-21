@@ -115,6 +115,7 @@ const IND = [
   ['V · Preventivas > 60 dias', '0%', '0%', 1], ['VI · Serv. especiais fora do prazo', '0%', '0%', 1]
 ]
 const tot = i => i.q == null ? null : i.q * i.u * (1 + i.b / 100)
+const dtf = d => d ? d.split('-').reverse().join('/') : '—'
 function nextD(d, h) { const n = new Date(); let x = new Date(n.getFullYear(), n.getMonth(), d, h); if (x < n) x = new Date(n.getFullYear(), n.getMonth() + 1, d, h); return x }
 function left(x) { const s = Math.max(0, x - new Date()) / 1000; return Math.floor(s / 86400) + 'd ' + Math.floor(s % 86400 / 3600) + 'h ' + Math.floor(s % 3600 / 60) + 'min' }
 
@@ -152,26 +153,29 @@ function Shell({ membro, email }) {
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 30000); return () => clearInterval(t) }, [])
   const [rec, setRec] = useState(0)
   const [devId, setDevId] = useState(null)
+  const [ver, setVer] = useState(null)
   const [motivo, setMotivo] = useState({})
   const [busy, setBusy] = useState(null)
-  const [db, setDb] = useState({ ok: false, erro: '', par: null, serv: [], apr: [], cil: [] })
+  const [db, setDb] = useState({ ok: false, erro: '', par: null, serv: [], apr: [], cil: [], mem: {} })
   useEffect(() => {
     let vivo = true
     async function carregar() {
       const d = new Date()
       const mes = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-01'
-      const [p, s, a, c, g] = await Promise.all([
+      const [p, s, a, c, g, m] = await Promise.all([
         supabase.from('parametros_financeiros').select('teto,mao_obra_fixa,saldo_livre').eq('mes', mes).maybeSingle(),
-        supabase.from('servicos_especiais').select('id,titulo,status,valor_previsto'),
+        supabase.from('servicos_especiais').select('id,titulo,status,valor_previsto,numero,tipo,descricao,prioridade,data_prevista_inicio,data_prevista_fim,ref_neovero,solicitante_id,responsavel_id'),
         supabase.from('aprovacoes').select('id,tipo,nivel,papel_requerido,status,servico_id,registro_id').eq('status', 'pendente').order('nivel'),
         supabase.from('cilindros').select('codigo_crer,proprietario,gas_tipo_id,validade_teste').order('validade_teste'),
-        supabase.from('gases_tipos').select('id,sigla')
+        supabase.from('gases_tipos').select('id,sigla'),
+        supabase.from('membros').select('id,nome')
       ])
       if (!vivo) return
       const erro = [p, s, a, c, g].map(r => r.error && r.error.message).filter(Boolean).join(' | ')
       const gm = {}; (g.data || []).forEach(x => { gm[x.id] = x.sigla })
+      const mm = {}; ((m && m.data) || []).forEach(x => { mm[x.id] = x.nome })
       setDb({
-        ok: true, erro, par: p.data, serv: s.data || [], apr: a.data || [],
+        ok: true, erro, par: p.data, serv: s.data || [], apr: a.data || [], mem: mm,
         cil: (c.data || []).filter(x => x.validade_teste).map(x => ({ ...x, gas: gm[x.gas_tipo_id] || '—' }))
       })
     }
@@ -253,6 +257,26 @@ function Shell({ membro, email }) {
               <div className="hint">Nível {x.nivel} · aguarda {FL[x.papel_requerido] || x.papel_requerido}</div></div>
             <b className="mono">{s ? fmt(Number(s.valor_previsto)) : '—'}</b>
           </div>
+          {s && <div style={{ margin: '8px 0' }}>
+            <button className="btn g" onClick={() => setVer(ver === x.id ? null : x.id)}>{ver === x.id ? 'Ocultar detalhes' : 'Ver detalhes'}</button>
+            {ver === x.id && (
+              <div className="card" style={{ marginTop: 8, marginBottom: 0 }}>
+                <div className="grid c3" style={{ marginBottom: 10 }}>
+                  <div><div className="kl">Número</div><b>{s.numero != null ? s.numero : '—'}</b></div>
+                  <div><div className="kl">Tipo</div><b>{s.tipo || '—'}</b></div>
+                  <div><div className="kl">Prioridade</div><b>{s.prioridade || '—'}</b></div>
+                  <div><div className="kl">Status</div><b>{s.status || '—'}</b></div>
+                  <div><div className="kl">Valor previsto</div><b className="mono">{fmt(Number(s.valor_previsto))}</b></div>
+                  <div><div className="kl">Ref. Neovero</div><b>{s.ref_neovero || '—'}</b></div>
+                  <div><div className="kl">Início previsto</div><b>{dtf(s.data_prevista_inicio)}</b></div>
+                  <div><div className="kl">Fim previsto</div><b>{dtf(s.data_prevista_fim)}</b></div>
+                  <div><div className="kl">Solicitante</div><b>{db.mem[s.solicitante_id] || '—'}</b></div>
+                  <div><div className="kl">Responsável</div><b>{db.mem[s.responsavel_id] || '—'}</b></div>
+                </div>
+                <div className="kl">Descrição</div>
+                <div style={{ whiteSpace: 'pre-wrap' }}>{s.descricao || 'Sem descrição cadastrada.'}</div>
+              </div>)}
+          </div>}
           {minhaDb(x) && (trava
             ? <div className="al w">Aguardando o nível anterior aprovar.</div>
             : devId === x.id
@@ -480,13 +504,13 @@ function Shell({ membro, email }) {
         <h1>{titulo}</h1><div className="sub">{sub}</div>
         {db.erro && <div className="al">Erro ao ler o banco: {db.erro}</div>}
         {db.ok && !db.par && <div className="al w">Sem linha em parametros_financeiros para este mês.</div>}
-        {v === 'painel' && <Painel />}
+        {v === 'painel' && Painel()}
         {v === 'aprov' && (<>
           <div className="card"><h2>Aguardando você</h2>{aprDb('minhas')}</div>
           <div className="card"><h2>Em outros níveis</h2>{aprDb('outras')}</div>
         </>)}
-        {v === 'medicao' && <Medicao />}
-        {v === 'servico' && <Servico />}
+        {v === 'medicao' && Medicao()}
+        {v === 'servico' && Servico()}
       </main>
       <div id="toast" className={toastMsg ? 'on' : ''}>{toastMsg}</div>
     </div>
@@ -518,3 +542,5 @@ export default function App() {
             : <Shell membro={membro} email={sessao.user.email} />}
   </>)
 }
+
+
