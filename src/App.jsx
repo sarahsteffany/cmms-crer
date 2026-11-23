@@ -26,9 +26,9 @@ nav button.on{background:var(--p2);color:var(--lime)}nav button.on:before{backgr
 main{flex:1;padding:26px 30px;min-width:0}
 h1{font-size:22px;letter-spacing:-.5px}h2{font-size:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .sub{color:var(--m);margin:2px 0 20px}
-.grid{display:grid;gap:14px;margin-bottom:14px}.k4{grid-template-columns:repeat(4,1fr)}.c2{grid-template-columns:1.4fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}.i6{grid-template-columns:repeat(6,1fr)}
-@media(max-width:1100px){.k4,.c2,.c3{grid-template-columns:1fr 1fr}.i6{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:760px){.app{flex-direction:column}aside{width:100%;height:auto;position:static}.k4,.c2,.c3,.i6{grid-template-columns:1fr}}
+.grid{display:grid;gap:14px;margin-bottom:14px}.k4{grid-template-columns:repeat(4,1fr)}.c2{grid-template-columns:1.4fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1100px){.k4,.c2,.c3{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.app{flex-direction:column}aside{width:100%;height:auto;position:static}.k4,.c2,.c3{grid-template-columns:1fr}}
 .card{background:var(--p);border:1px solid var(--b);border-radius:16px;padding:16px;margin-bottom:14px}
 .grid>.card{margin-bottom:0}
 .kl{color:var(--m);font-size:12px}.kv{font-size:26px;font-weight:800;letter-spacing:-1px;margin:4px 0}.ks{font-size:12px;color:var(--m)}
@@ -37,30 +37,18 @@ h1{font-size:22px;letter-spacing:-.5px}h2{font-size:14px;margin-bottom:12px;disp
 .bd{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600;background:var(--p2);color:var(--m);border:1px solid var(--b)}
 .bd.ok{color:var(--ok);border-color:#1f4d34;background:#12241b}.bd.w{color:var(--amb);border-color:#5a4210;background:#2a2110}
 .bd.d{color:var(--cor);border-color:#5e2822;background:#2b1513}.bd.l{color:#111;background:var(--lime);border-color:var(--lime)}
-.ind{padding:12px}.ind .kv{font-size:19px}.ind.bad{border-color:#5e2822}.ind.good{border-color:#23402f}
 .btn{background:var(--lime);color:#111;border:0;border-radius:9px;padding:7px 12px;font:inherit;font-weight:700;cursor:pointer}
 .btn.g{background:var(--p2);color:var(--t);border:1px solid var(--b)}.btn.r{background:#2b1513;color:var(--cor);border:1px solid #5e2822}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{position:sticky;top:0;background:var(--p);text-align:left;color:var(--m);font-weight:600;padding:8px;border-bottom:1px solid var(--b);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+th{background:var(--p);text-align:left;color:var(--m);font-weight:600;padding:8px;border-bottom:1px solid var(--b);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
 td{padding:9px 8px;border-bottom:1px solid var(--b);vertical-align:top}
 tr:hover td{background:#1a1b21}.num{text-align:right;white-space:nowrap}
-.wrap{overflow:auto;max-height:480px;border-radius:10px}
 .ap{border:1px solid var(--b);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--p2)}
 .ap .t{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.flow{display:flex;gap:6px;align-items:center;margin:8px 0;font-size:11px;flex-wrap:wrap}
-.flow span{padding:2px 8px;border-radius:99px;border:1px solid var(--b);color:var(--m)}
-.flow span.done{color:var(--ok);border-color:#1f4d34}.flow span.cur{background:var(--lime);color:#111;border-color:var(--lime);font-weight:700}
-.flow span.ar{border:0;padding:0}
 .al{background:#2b1513;border:1px solid #5e2822;color:var(--cor);border-radius:9px;padding:6px 10px;font-size:12px;margin:6px 0}
 .al.w{color:var(--amb);background:#2a2110;border-color:#5a4210}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.tl{position:relative;padding-left:24px}.tl:before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--b)}
-.ph{position:relative;margin-bottom:14px}.ph:before{content:"";position:absolute;left:-23px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--b);border:2px solid var(--p)}
-.ph.done:before{background:var(--lime)}.ph.doing:before{background:var(--amb);box-shadow:0 0 0 4px #ffb02033}.ph.back:before{background:var(--cor)}
-.ph b{display:block}.ph small{color:var(--m)}
-.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.tabs button{background:var(--p2);color:var(--m);border:1px solid var(--b);border-radius:99px;padding:5px 12px;cursor:pointer;font:inherit}.tabs button.on{background:var(--lime);color:#111;border-color:var(--lime);font-weight:700}
 .st{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12.5px}.st>span:first-child{width:130px;color:var(--m)}.st .bar{flex:1;margin:0}
 .in{width:100%;background:var(--p2);border:1px solid var(--b);color:var(--t);border-radius:9px;padding:8px;font:inherit}
 .mono{font-variant-numeric:tabular-nums}.hint{font-size:11px;color:var(--m)}
@@ -70,7 +58,6 @@ tr:hover td{background:#1a1b21}.num{text-align:right;white-space:nowrap}
 `
 
 const fmt = v => v == null ? '—' : v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-const TETO = 180000, MO = 129000, LIVRE = TETO - MO
 const FL = { analista: 'Analistas', supervisor: 'Supervisor', gerente: 'Gerente' }
 const P = {
   gerente: { n: 'Gerente de Infraestrutura', i: 'GI', lvl: 'gerente', nav: ['painel', 'aprov', 'medicao', 'servicos', 'diario'] },
@@ -82,43 +69,11 @@ const P = {
 }
 const NL = { painel: 'Painel', aprov: 'Aprovações', medicao: 'Medição', servicos: 'Serviços', diario: 'Diário de obra' }
 const MAPA = { admin: 'gerente', gerente: 'gerente', supervisor: 'supervisor', analista: 'analista', assistente: 'assistente', auxiliar: 'auxiliar', terceira: 'terceira', terceiro: 'terceira', fornecedor: 'terceira' }
+const EM_CURSO = ['em_andamento', 'em_execucao', 'em_medicao']
+const ENCERRADO = /conclu|cancel|rejeit|recus/i
 
-const AP0 = [
-  { id: 1, t: 'Orçamento', ti: 'Mudança de layout · Ambulatório B', v: 27800, saldo: 1, f: ['supervisor', 'gerente'], i: 0, src: 'SINAPI 14 itens · GoInfra 3 · Mercado 2' },
-  { id: 2, t: 'Compra', ti: 'Trena a laser (3 cotações, menor valor)', v: 389.9, saldo: 1, f: ['supervisor', 'gerente'], i: 0, src: 'Mercado · 3 cotações anexadas' },
-  { id: 3, t: 'Composição própria', ti: 'Troca de forro em gesso acartonado', v: null, saldo: 0, f: ['analista', 'supervisor', 'gerente'], i: 0, src: 'Memória de cálculo anexada · criada pela ORBIS' },
-  { id: 4, t: 'Orçamento', ti: 'Reforma da sala de espera · Ortopedia', v: 18900, saldo: 1, f: ['supervisor', 'gerente'], i: 1, src: 'SINAPI 22 itens · GoInfra 5' },
-  { id: 5, t: 'Medição', ti: 'Setembro · Parte 2 (10/09 a 30/09)', v: 92730.21, saldo: 0, f: ['analista', 'supervisor', 'gerente'], i: 1, src: 'Conferida pelos analistas · 38 itens' },
-  { id: 6, t: 'Orçamento', ti: 'Troca de piso · Corredor 3', v: 14200, saldo: 1, f: ['supervisor', 'gerente'], i: 1, src: 'SINAPI 9 itens' }
-]
-const IT0 = [
-  { os: '202616862', tp: 'PREVENTIVA', d: 'Torneira lavatório temporizada', fo: 'SINAPI', cod: '36796', q: 3, u: 161.28, b: 25, abc: 'A', st: 'p' },
-  { os: '202616510', tp: 'CORRETIVA', d: 'Ducha / chuveiro metálico articulável', fo: 'SINAPI', cod: '38190', q: 1, u: 399.51, b: 25, abc: 'A', st: 'p' },
-  { os: '202617022', tp: 'CORRETIVA', d: 'Válvula de descarga metálica 1 1/2"', fo: 'SINAPI', cod: '10228', q: 1, u: 328, b: 25, abc: 'A', st: 'p' },
-  { os: '202616453', tp: 'CORRETIVA', d: 'Aquecedor versátil 220V', fo: 'Mercado', cod: '6', q: 1, u: 317.6, b: 25, abc: 'A', st: 'p' },
-  { os: '202616090', tp: 'CORRETIVA', d: 'Válvula de descarga mictório (lançamento 1)', fo: 'SINAPI', cod: '21112', q: 1, u: 282.34, b: 25, abc: 'B', st: 'p', fl: 'Possível duplicidade: OS aparece 2 vezes' },
-  { os: '202616090', tp: 'CORRETIVA', d: 'Válvula de descarga mictório (lançamento 2)', fo: 'SINAPI', cod: '21112', q: 1, u: 282.34, b: 25, abc: 'B', st: 'p', fl: 'Possível duplicidade: OS aparece 2 vezes' },
-  { os: '202616014', tp: 'CORRETIVA', d: 'Luminária plafon LED 40x40 embutir', fo: 'GoInfra', cod: '4072', q: 1, u: 110.01, b: 25, abc: 'B', st: 'p', fl: 'Possível duplicidade: luminária lançada 2 vezes' },
-  { os: '202616514', tp: 'CORRETIVA', d: 'Sifão metálico para tanque', fo: 'GoInfra', cod: 'H703', q: 1, u: 184.9, b: 25, abc: 'B', st: 'p', fl: 'Mês de referência: GoInfra 09/2026 e SINAPI 05/2026' },
-  { os: '202616478', tp: 'CORRETIVA', d: 'Hora de eletricista (troca de tomada)', fo: 'SINAPI', cod: '88264', q: null, u: 0, b: 0, abc: 'C', st: 'p', fl: 'Quantidade vazia' },
-  { os: '202616591', tp: 'CORRETIVA', d: 'Hora de eletricista (troca de ducha)', fo: 'SINAPI', cod: '88264', q: 1.45, u: 0, b: 0, abc: 'C', st: 'p', fl: 'Erro de fórmula na célula (FALSO)' },
-  { os: '202616980', tp: 'AQUISIÇÃO', d: 'Malha helanca lisa branca (30 m)', fo: 'Mercado', cod: '29', q: 30, u: 10.75, b: 16.8, abc: 'B', st: 'a' },
-  { os: '202616741', tp: 'CORRETIVA', d: 'Lâmpada LED tubular 18/20W', fo: 'SINAPI', cod: '39387', q: 16, u: 8.14, b: 25, abc: 'C', st: 'd', cm: 'Quantidade diverge do diário de obra (12 un).' }
-]
-const POSTOS = [
-  { n: 'Encarregado · 44h', v: 8219.95, pv: 22, cb: 22 },
-  { n: 'Eletricista · 44h', v: 6400, pv: 22, cb: 21 },
-  { n: 'Pintor/forro · diurno', v: 5200, pv: 22, cb: 22 },
-  { n: 'Eletricista · 12/36 noturno', v: 6900, pv: 15, cb: 14 },
-  { n: 'Auxiliar · 12/36 noturno', v: 4300, pv: 15, cb: 15 }
-]
-const IND = [
-  ['I · 1º atendimento', '01:10:12', '≤ 2h', 1], ['II · Corretivas executadas', '85,87%', '≥ 85%', 1],
-  ['III · Plano de manutenção', '96,04%', '≥ 98%', 0], ['IV · Corretivas > 30 dias', '1,935%', '≤ 2%', 1],
-  ['V · Preventivas > 60 dias', '0%', '0%', 1], ['VI · Serv. especiais fora do prazo', '0%', '0%', 1]
-]
-const tot = i => i.q == null ? null : i.q * i.u * (1 + i.b / 100)
 const dtf = d => d ? d.split('-').reverse().join('/') : '—'
+const rot = s => String(s || 'sem status').replace(/_/g, ' ')
 function nextD(d, h) { const n = new Date(); let x = new Date(n.getFullYear(), n.getMonth(), d, h); if (x < n) x = new Date(n.getFullYear(), n.getMonth() + 1, d, h); return x }
 function left(x) { const s = Math.max(0, x - new Date()) / 1000; return Math.floor(s / 86400) + 'd ' + Math.floor(s % 86400 / 3600) + 'h ' + Math.floor(s % 3600 / 60) + 'min' }
 
@@ -147,10 +102,6 @@ function Shell({ membro, email, userId }) {
   const isAdmin = String(membro.papel).toLowerCase() === 'admin'
   const [prof, setProf] = useState(papelBase || 'auxiliar')
   const [view, setView] = useState('painel')
-  const [comp, setComp] = useState(0)
-  const [fil, setFil] = useState('todos')
-  const [AP, setAP] = useState(AP0)
-  const [IT, setIT] = useState(IT0)
   const [toastMsg, setToastMsg] = useState('')
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 30000); return () => clearInterval(t) }, [])
@@ -160,6 +111,7 @@ function Shell({ membro, email, userId }) {
   const [motivo, setMotivo] = useState({})
   const [busy, setBusy] = useState(null)
   const [db, setDb] = useState({ ok: false, erro: '', par: null, serv: [], apr: [], cil: [], mem: {} })
+
   useEffect(() => {
     let vivo = true
     async function carregar() {
@@ -187,50 +139,24 @@ function Shell({ membro, email, userId }) {
   }, [rec])
 
   const toast = m => { setToastMsg(m); setTimeout(() => setToastMsg(''), 2200) }
+  const go = n => { setView(n); setRec(r => r + 1) }
   const pr = P[prof], lv = pr.lvl
   const papelTela = isAdmin && prof === 'gerente' ? 'admin' : prof
   const v = pr.nav.includes(view) ? view : 'painel'
-  const EM_CURSO = ['em_andamento', 'em_execucao', 'em_medicao']
-  const teto = db.par ? Number(db.par.teto) : TETO
-  const mo = db.par ? Number(db.par.mao_obra_fixa) : MO
-  const livre = db.par ? Number(db.par.saldo_livre) : LIVRE
-  const comprometido = db.serv.filter(x => EM_CURSO.includes(x.status)).reduce((s, x) => s + Number(x.valor_previsto || 0), 0) + comp
+
+  const teto = db.par ? Number(db.par.teto) : 0
+  const mo = db.par ? Number(db.par.mao_obra_fixa) : 0
+  const livre = db.par ? Number(db.par.saldo_livre) : 0
+  const comprometido = db.serv.filter(x => EM_CURSO.includes(x.status)).reduce((s, x) => s + Number(x.valor_previsto || 0), 0)
   const disp = livre - comprometido
   const dias = d => Math.ceil((new Date(d + 'T00:00:00') - new Date().setHours(0, 0, 0, 0)) / 86400000)
   const cil30 = db.cil.filter(x => dias(x.validade_teste) <= 30).length
-  const cilRows = db.cil.slice(0, 8).map(x => {
-    const n = dias(x.validade_teste)
-    return (<tr key={x.codigo_crer}><td>{x.codigo_crer}</td><td>{x.gas}</td><td>{x.proprietario === 'ibg' ? 'IBG' : 'Unidade'}</td><td><span className={'bd ' + (n <= 15 ? 'd' : n <= 30 ? 'w' : '')}>{n} dias</span></td></tr>)
-  })
-  const mine = a => lv && a.f[a.i] === lv
-  const setItem = (k, patch) => setIT(IT.map((x, j) => j === k ? { ...x, ...patch } : x))
-
-  function decide(id, ok) {
-    const a = AP.find(x => x.id === id)
-    if (!ok) { setAP(AP.filter(x => x.id !== id)); toast('Devolvido para ajuste, com motivo registrado') }
-    else if (a.i < a.f.length - 1) { setAP(AP.map(x => x.id === id ? { ...x, i: x.i + 1 } : x)); toast('Aprovado. Segue para ' + FL[a.f[a.i + 1]]) }
-    else { setAP(AP.filter(x => x.id !== id)); if (a.saldo) setComp(comp + a.v); toast('Aprovação final. Lançamento criado no financeiro') }
-  }
-
-  const ApCard = ({ a, act }) => (
-    <div className="ap">
-      <div className="t">
-        <div><span className="bd l">{a.t}</span> <b>{a.ti}</b><div className="hint">{a.src}</div></div>
-        <b className="mono">{fmt(a.v)}</b>
-      </div>
-      <div className="flow">{a.f.map((x, k) => [k > 0 && <span key={'a' + k} className="ar">→</span>, <span key={x} className={k < a.i ? 'done' : k === a.i ? 'cur' : ''}>{FL[x]}</span>])}</div>
-      {a.saldo && a.v > disp && mine(a) ? <div className="al">Aprovar estoura o saldo livre em {fmt(a.v - disp)}. Decida sabendo o impacto.</div> : null}
-      {act && mine(a)
-        ? <div className="row">
-          <button className="btn" onClick={() => decide(a.id, 1)}>Aprovar{a.f[a.i] === 'analista' ? ' (validar)' : ''}</button>
-          <button className="btn r" onClick={() => decide(a.id, 0)}>Devolver</button>
-          <button className="btn g" onClick={() => toast('Memória de pesquisa de preço aberta')}>Memória de preço</button>
-        </div>
-        : <div className="hint">Aguardando: {FL[a.f[a.i]]}</div>}
-    </div>
-  )
-
+  const atrasados = db.serv.filter(x => x.data_prevista_fim && !ENCERRADO.test(x.status || '') && dias(x.data_prevista_fim) < 0)
+  const ativos = db.serv.filter(x => EM_CURSO.includes(x.status)).length
+  const porStatus = Object.entries(db.serv.reduce((m, x) => { const k = x.status || 'sem status'; m[k] = (m[k] || 0) + 1; return m }, {}))
+  const maxS = Math.max(1, ...porStatus.map(x => x[1]))
   const minhaDb = x => !!lv && x.papel_requerido === lv
+  const nMinhas = db.apr.filter(minhaDb).length
 
   async function decidirDb(x, ok) {
     const parecer = (motivo[x.id] || '').trim()
@@ -269,7 +195,7 @@ function Shell({ membro, email, userId }) {
                   <div><div className="kl">Número</div><b>{s.numero != null ? s.numero : '—'}</b></div>
                   <div><div className="kl">Tipo</div><b>{s.tipo || '—'}</b></div>
                   <div><div className="kl">Prioridade</div><b>{s.prioridade || '—'}</b></div>
-                  <div><div className="kl">Status</div><b>{s.status || '—'}</b></div>
+                  <div><div className="kl">Status</div><b>{rot(s.status)}</b></div>
                   <div><div className="kl">Valor previsto</div><b className="mono">{fmt(Number(s.valor_previsto))}</b></div>
                   <div><div className="kl">Ref. Neovero</div><b>{s.ref_neovero || '—'}</b></div>
                   <div><div className="kl">Início previsto</div><b>{dtf(s.data_prevista_inicio)}</b></div>
@@ -298,8 +224,9 @@ function Shell({ membro, email, userId }) {
         </div>)
     })
   }
+
   const Kpis = () => {
-    const pc = livre > 0 ? Math.min(100, Math.max(0, comprometido / livre * 100)) : 100, me = db.apr.filter(x => x.papel_requerido === lv).length
+    const pc = livre > 0 ? Math.min(100, Math.max(0, comprometido / livre * 100)) : 100
     return (
       <div className="grid k4">
         <div className="card"><div className="kl">Saldo livre do mês</div>
@@ -307,207 +234,106 @@ function Shell({ membro, email, userId }) {
           <div className={'bar ' + (pc > 85 ? 'd' : pc > 60 ? 'w' : '')}><i style={{ width: pc + '%' }} /></div>
           <div className="ks">Teto {fmt(teto)} − mão de obra {fmt(mo)} = {fmt(livre)}<br />Comprometido: {fmt(comprometido)}</div></div>
         <div className="card"><div className="kl">Aprovações pendentes</div>
-          <div className="kv">{lv === 'analista' ? db.apr.length : me}</div>
-          <div className="ks">{lv === 'analista' ? `${me} para você validar` : `aguardam a sua aprovação · ${db.apr.length - me} em outros níveis`}</div></div>
+          <div className="kv">{lv === 'analista' ? db.apr.length : nMinhas}</div>
+          <div className="ks">{lv === 'analista' ? `${nMinhas} para você validar` : `aguardam a sua aprovação · ${db.apr.length - nMinhas} em outros níveis`}</div></div>
         <div className="card"><div className="kl">Prazo da medição</div>
           <div className="kv">{left(nextD(1, 14))}</div><div className="ks">envio até dia 1 · 14h</div>
           <div className="ks" style={{ marginTop: 6 }}>Fechamento: <b style={{ color: 'var(--amb)' }}>{left(nextD(5, 13))}</b> (dia 5 · 13h)</div></div>
-        <div className="card"><div className="kl">Indicadores contratuais</div>
-          <div className="kv">{IND.filter(x => x[3]).length}/6</div>
-          <div className="ks">na meta · <span style={{ color: 'var(--cor)' }}>1 abaixo da meta (III)</span></div></div>
+        <div className="card"><div className="kl">Serviços em curso</div>
+          <div className="kv">{ativos}</div>
+          <div className="ks">{db.serv.length} serviço(s) no total · {atrasados.length} atrasado(s)</div></div>
       </div>
     )
   }
-  const Indicadores = () => (
-    <div className="card"><h2>Indicadores do contrato · Setembro/2026 <span className="hint">dados ilustrativos</span></h2>
-      <div className="grid i6">{IND.map(x => (
-        <div key={x[0]} className={'card ind ' + (x[3] ? 'good' : 'bad')}><div className="kl">{x[0]}</div>
-          <div className="kv mono" style={{ color: x[3] ? 'var(--t)' : 'var(--cor)' }}>{x[1]}</div>
-          <span className={'bd ' + (x[3] ? 'ok' : 'd')}>meta {x[2]}</span></div>))}</div></div>
-  )
+
   const Status = () => (
-    <div className="card"><h2>Serviços especiais por status</h2>
-      {[['Solicitado', 6], ['Em andamento', 9], ['Aguard. aprovação', 4], ['Em execução', 5], ['Em medição', 2], ['Concluído', 18]].map(x => (
-        <div className="st" key={x[0]}><span>{x[0]}</span><div className="bar"><i style={{ width: x[1] / 18 * 100 + '%' }} /></div><b>{x[1]}</b></div>))}</div>
+    <div className="card"><h2>Serviços por status</h2>
+      {porStatus.length === 0 && <div className="hint">Nenhum serviço cadastrado.</div>}
+      {porStatus.map(x => (
+        <div className="st" key={x[0]}><span>{rot(x[0])}</span><div className="bar"><i style={{ width: x[1] / maxS * 100 + '%' }} /></div><b>{x[1]}</b></div>))}</div>
+  )
+
+  const Alertas = () => (
+    <div className="card"><h2>Atrasos e alertas</h2>
+      {disp < 0 && <div className="al">Saldo livre negativo em {fmt(-disp)}.</div>}
+      {db.ok && !db.par && <div className="al w">Sem parâmetros financeiros cadastrados para este mês.</div>}
+      {atrasados.length > 0 && <div className="al w">{atrasados.length} serviço(s) com data prevista vencida: {atrasados.slice(0, 3).map(x => x.titulo).join(', ')}{atrasados.length > 3 ? '…' : ''}</div>}
+      {cil30 > 0 && <div className="al w">{cil30} cilindro(s) com teste hidrostático vencido ou a vencer em 30 dias</div>}
+      {disp >= 0 && db.par && !atrasados.length && !cil30 && <div className="hint">Nenhum alerta no momento.</div>}
+    </div>
+  )
+
+  const Cilindros = () => (
+    <div className="card"><h2>Cilindros por validade do teste <span className="hint">{db.cil.length} no total</span></h2>
+      {db.cil.length === 0 ? <div className="hint">Nenhum cilindro cadastrado.</div> :
+        <table><thead><tr><th>Código</th><th>Gás</th><th>Dono</th><th>Teste vence</th></tr></thead><tbody>
+          {db.cil.slice(0, 8).map(x => {
+            const n = dias(x.validade_teste)
+            return (<tr key={x.codigo_crer}><td>{x.codigo_crer}</td><td>{x.gas}</td><td>{x.proprietario === 'ibg' ? 'IBG' : 'Unidade'}</td>
+              <td><span className={'bd ' + (n <= 15 ? 'd' : n <= 30 ? 'w' : '')}>{n < 0 ? `vencido há ${-n} dias` : `${n} dias`}</span></td></tr>)
+          })}
+        </tbody></table>}
+    </div>
   )
 
   function Painel() {
-    const nP = IT.filter(i => i.st === 'p').length, nD = IT.filter(i => i.st === 'd').length, nA = IT.filter(i => i.st === 'a').length
     if (['gerente', 'supervisor', 'analista'].includes(prof)) return (<>
-      <Kpis /><Indicadores />
-      {prof === 'analista' ? (
-        <div className="grid c2">
-          <div className="card"><h2>Aprovações pendentes <span className="hint">você valida; supervisor e gerente aprovam</span></h2>
-            {aprDb('todas')}</div>
-          <div>
-            <div className="card"><h2>Fila de conferência</h2>
-              <div className="st"><span>A conferir</span><div className="bar"><i style={{ width: nP / IT.length * 100 + '%' }} /></div><b>{nP}</b></div>
-              <div className="st"><span>Devolvidos</span><div className="bar w"><i style={{ width: nD / IT.length * 100 + '%' }} /></div><b>{nD}</b></div>
-              <div className="st"><span>Aprovados</span><div className="bar"><i style={{ width: nA / IT.length * 100 + '%' }} /></div><b>{nA}</b></div>
-              <button className="btn" onClick={() => setView('medicao')}>Abrir conferência</button></div>
-            <div className="card"><h2>Divergências detectadas</h2>
-              <div className="al w">2 OS com lançamento duplicado</div>
-              <div className="al w">1 item sem quantidade, 1 com erro de fórmula</div>
-              <div className="al w">Mês de referência: GoInfra 09/2026 e SINAPI 05/2026</div>
-              <div className="al">Posto 44h "coberto" sem nenhuma OS em 3 dias</div></div>
-            <Status />
-          </div>
-        </div>
-      ) : (
-        <div className="grid c2">
-          <div className="card"><h2>Só você aprova <span className="bd l">{db.apr.filter(x => x.papel_requerido === lv).length} para {FL[lv]}</span></h2>
-            {aprDb('minhas')}</div>
-          <div><Status />
-            <div className="card"><h2>Atrasos e alertas</h2>
-              <div className="al w">Medição: 3 itens devolvidos há mais de 48h</div>
-              <div className="al w">{cil30} cilindro(s) com teste hidrostático a vencer em 30 dias</div>
-              <div className="al">Indicador III abaixo da meta (96,04% &lt; 98%)</div></div></div>
-        </div>
-      )}
+      <Kpis />
+      <div className="grid c2">
+        <div className="card">
+          <h2>{prof === 'analista' ? 'Aprovações pendentes' : 'Aguardando você'}
+            <span className="hint">{prof === 'analista' ? 'você valida; supervisor e gerente aprovam' : `${nMinhas} para ${FL[lv]}`}</span></h2>
+          {aprDb(prof === 'analista' ? 'todas' : 'minhas')}</div>
+        <div><Status /><Alertas /></div>
+      </div>
+      <Cilindros />
     </>)
     if (prof === 'assistente') return (<>
       <div className="grid c3">
-        <div className="card"><div className="kl">Processos SES abertos</div><div className="kv">3</div><div className="ks">1 aguardando liberação</div></div>
-        <div className="card"><div className="kl">Empenhos a registrar</div><div className="kv" style={{ color: 'var(--amb)' }}>2</div></div>
-        <div className="card"><div className="kl">Pagamentos em curso</div><div className="kv">1</div><div className="ks">e-Compras / e-Doc</div></div>
+        <div className="card"><div className="kl">Serviços cadastrados</div><div className="kv">{db.serv.length}</div></div>
+        <div className="card"><div className="kl">Aprovações em andamento</div><div className="kv" style={{ color: 'var(--amb)' }}>{db.apr.length}</div><div className="ks">aguardando analistas, supervisor ou gerente</div></div>
+        <div className="card"><div className="kl">Serviços em curso</div><div className="kv">{ativos}</div><button className="btn" onClick={() => go('servicos')}>Abrir serviços</button></div>
       </div>
-      <div className="card"><h2>Processos de investimento</h2>
-        <table><thead><tr><th>Nº processo</th><th>Serviço</th><th className="num">Solicitado</th><th className="num">Liberado</th><th>Status</th></tr></thead><tbody>
-          <tr><td>2026/SES-0412</td><td>Mudança de layout · Ambulatório B</td><td className="num">{fmt(27800)}</td><td className="num">—</td><td><span className="bd w">Aguardando liberação</span></td></tr>
-          <tr><td>2026/SES-0377</td><td>Reforma da sala de espera</td><td className="num">{fmt(18900)}</td><td className="num">{fmt(18900)}</td><td><span className="bd ok">Recurso liberado</span></td></tr>
-          <tr><td>2026/SES-0431</td><td>Troca de piso · Corredor 3</td><td className="num">{fmt(14200)}</td><td className="num">—</td><td><span className="bd">Enviado</span></td></tr>
-        </tbody></table></div>
-      <div className="card"><h2>Pagamento da medição</h2>
-        <div className="grid c3">
-          <div><label>Canal</label><select><option>e-Compras</option><option>e-Doc</option></select></div>
-          <div><label>Nº do processo / documento</label><input className="in" defaultValue="OCS04.2026.JUL.03868" /></div>
-          <div><label>Ordem de compra</label><input className="in" defaultValue="206149" /></div></div>
-        <button className="btn" onClick={() => toast('Medição marcada como enviada para pagamento')}>Marcar como enviada para pagamento</button></div>
+      <div className="grid c2"><Status /><Alertas /></div>
     </>)
-    if (prof === 'auxiliar') return (
-      <div className="grid c2">
-        <div className="card"><h2>Diário de obra rápido</h2>
-          <label>Efetivo presente</label>
-          <div style={{ margin: '8px 0', lineHeight: 2 }}>{['Encarregado 44h', 'Eletricista 44h', 'Eletricista 12/36', 'Auxiliar 44h', 'Pintor/forro'].map(x => (
-            <label key={x} style={{ textTransform: 'none', fontSize: 13, color: 'var(--t)', marginRight: 14 }}><input type="checkbox" defaultChecked /> {x}</label>))}</div>
-          <label>Tempo parado (minutos)</label><input className="in" type="number" defaultValue={0} style={{ margin: '6px 0 10px' }} />
-          <label>Atividades do dia</label><textarea className="in" rows={3} style={{ marginTop: 6 }} />
-          <div className="row" style={{ marginTop: 10 }}><button className="btn g" onClick={() => toast('Foto anexada')}>Anexar foto</button><button className="btn" onClick={() => toast('Diário salvo')}>Salvar diário</button></div></div>
-        <div className="card"><h2>Cilindros a vencer · {db.cil.length} no total</h2>
-          <table><thead><tr><th>Código</th><th>Gás</th><th>Dono</th><th>Teste vence</th></tr></thead><tbody>
-            {cilRows}
-            
-            
-            
-          </tbody></table><br /><button className="btn" onClick={() => toast('Leitor de QR/serial aberto')}>Ler cilindro</button></div>
+    if (prof === 'auxiliar') return (<>
+      <div className="grid c3">
+        <div className="card"><div className="kl">Serviços em curso</div><div className="kv">{ativos}</div><button className="btn" onClick={() => go('servicos')}>Ver serviços</button></div>
+        <div className="card"><div className="kl">Diário de obra</div><div className="kv" style={{ fontSize: 16 }}>Lançar o dia</div><button className="btn" onClick={() => go('diario')}>Abrir diário</button></div>
+        <div className="card"><div className="kl">Cilindros a vencer (30 dias)</div><div className="kv" style={{ color: cil30 ? 'var(--amb)' : 'var(--t)' }}>{cil30}</div></div>
       </div>
-    )
-    const dv = IT.filter(i => i.st === 'd').length, fl = IT.filter(i => i.fl).length
+      <Cilindros />
+    </>)
     return (
       <div className="grid k4">
         <div className="card"><div className="kl">Prazo de envio</div><div className="kv">{left(nextD(1, 14))}</div><div className="ks">dia 1 · 14h</div></div>
-        <div className="card"><div className="kl">Devolvidos pelo fiscal</div><div className="kv" style={{ color: 'var(--amb)' }}>{dv}</div><div className="ks">reenvie só o apontado</div></div>
-        <div className="card"><div className="kl">Bloqueados pela validação</div><div className="kv" style={{ color: 'var(--cor)' }}>{fl}</div><div className="ks">corrigir antes de enviar</div></div>
-        <div className="card"><div className="kl">Lançamento do mês</div><div className="kv">{IT.length} itens</div><button className="btn" onClick={() => setView('medicao')}>Abrir medição</button></div>
+        <div className="card"><div className="kl">Fechamento</div><div className="kv" style={{ color: 'var(--amb)' }}>{left(nextD(5, 13))}</div><div className="ks">dia 5 · 13h</div></div>
+        <div className="card"><div className="kl">Medição do mês</div><button className="btn" style={{ marginTop: 8 }} onClick={() => go('medicao')}>Abrir medição</button></div>
+        <div className="card"><div className="kl">Diário de obra</div><button className="btn" style={{ marginTop: 8 }} onClick={() => go('diario')}>Abrir diário</button></div>
       </div>
     )
   }
 
-  function Medicao() {
-    const ter = prof === 'terceira'
-    const rows = IT.filter(i => fil === 'todos' || (fil === 'alerta' ? i.fl : i.st === fil))
-    const ap = IT.filter(i => i.st === 'a').length, bloq = IT.filter(i => i.fl).length
-    return (<>
-      <div className="grid c3">
-        <div className="card"><div className="kl">Conferência</div><div className="kv">{ap}/{IT.length} itens</div><div className="bar"><i style={{ width: ap / IT.length * 100 + '%' }} /></div>
-          <div className="ks">Fechamento: <b style={{ color: 'var(--amb)' }}>{left(nextD(5, 13))}</b></div></div>
-        <div className="card"><div className="kl">Validação automática antes do envio</div><div className="kv" style={{ color: bloq ? 'var(--cor)' : 'var(--ok)' }}>{bloq} bloqueio(s)</div>
-          <div className="ks">duplicidade, quantidade vazia, fórmula, mês de referência</div></div>
-        <div className="card"><div className="kl">Total conferido (c/ BDI)</div><div className="kv mono">{fmt(IT.filter(i => i.st === 'a').reduce((s, i) => s + (tot(i) || 0), 0))}</div>
-          <div className="ks">Total lançado: {fmt(IT.reduce((s, i) => s + (tot(i) || 0), 0))}</div></div>
-      </div>
-      <div className="card"><h2>Itens por OS <span className="hint">ordenados pela Curva ABC</span></h2>
-        <div className="tabs">{[['todos', 'Todos'], ['p', 'A conferir'], ['d', 'Devolvidos'], ['a', 'Aprovados'], ['alerta', 'Com alerta']].map(x => (
-          <button key={x[0]} className={fil === x[0] ? 'on' : ''} onClick={() => setFil(x[0])}>{x[1]}</button>))}</div>
-        <div className="wrap"><table><thead><tr><th>OS</th><th>Tipo</th><th>Descrição</th><th>Fonte</th><th className="num">Qtd</th><th className="num">Unit.</th><th className="num">Total c/ BDI</th><th>ABC</th><th>Status</th><th>Ação</th></tr></thead><tbody>
-          {rows.map(i => {
-            const k = IT.indexOf(i), t = tot(i)
-            return (<tr key={k}>
-              <td className="mono">{i.os}</td><td><span className="hint">{i.tp}</span></td>
-              <td>{i.d}{i.fl && <div className="al w" style={{ margin: '4px 0 0' }}>{i.fl}</div>}{i.cm && <div className="hint">Comentário: {i.cm}</div>}</td>
-              <td>{i.fo}<div className="hint">{i.cod}</div></td>
-              <td className="num">{i.q == null ? '—' : i.q}</td><td className="num">{i.u ? fmt(i.u) : 'R$ 0,00'}</td>
-              <td className="num"><b>{t == null ? '—' : fmt(t)}</b></td>
-              <td><span className={'bd ' + (i.abc === 'A' ? 'l' : '')}>{i.abc}</span></td>
-              <td>{i.st === 'a' ? <span className="bd ok">Aprovado</span> : i.st === 'd' ? <span className="bd w">Devolvido</span> : <span className="bd">A conferir</span>}</td>
-              <td>{ter
-                ? (i.st === 'd' ? <button className="btn g" onClick={() => { setItem(k, { st: 'p' }); toast('Item reenviado ao fiscal') }}>Reenviar</button>
-                  : i.fl ? <button className="btn g" onClick={() => toast('Abrir item para corrigir')}>Corrigir</button> : null)
-                : (lv && i.st === 'p' ? <div className="row">
-                  <button className="btn" disabled={!!i.fl} title={i.fl ? 'Corrija o alerta antes' : ''} onClick={() => { setItem(k, { st: 'a' }); toast('Item aprovado') }}>Aprovar</button>
-                  <button className="btn r" onClick={() => { setItem(k, { st: 'd', cm: 'Devolvido pelo fiscal.' }); toast('Item devolvido com comentário') }}>Devolver</button></div> : null)}</td>
-            </tr>)
-          })}
-        </tbody></table></div>
-        <div className="hint" style={{ marginTop: 8 }}>Horas de mão de obra entram com R$ 0,00, pois já são pagas nos postos fixos.</div></div>
-      <div className="card"><h2>Mão de obra fixa por posto <span className="hint">valor ÷ dias previstos × dias cobertos</span></h2>
-        <table><thead><tr><th>Posto</th><th className="num">Valor mensal</th><th className="num">Previstos</th><th className="num">Cobertos</th><th className="num">Desconto</th><th className="num">A pagar</th></tr></thead><tbody>
-          {POSTOS.map(x => { const pg = x.v / x.pv * x.cb; return (
-            <tr key={x.n}><td>{x.n}</td><td className="num">{fmt(x.v)}</td><td className="num">{x.pv}</td>
-              <td className="num">{x.cb < x.pv ? <span className="bd d">{x.cb}</span> : x.cb}</td>
-              <td className="num">{x.v - pg > 0.01 ? fmt(x.v - pg) : '—'}</td><td className="num"><b>{fmt(pg)}</b></td></tr>) })}
-        </tbody></table></div>
-      {(lv === 'supervisor' || lv === 'gerente') && <div className="row"><button className="btn" onClick={() => toast('Relatório final gerado')}>Gerar relatório final</button></div>}
-    </>)
-  }
-
-  function Servico() {
-    const ph = [['Briefing', 'done', 'Aceito pelo solicitante · Ortopedia'], ['Projeto de layout', 'back', 'v2 · refeito após a aprovação (mudança de sala)'], ['Aprovação do projeto', 'done', 'Aprovado em 28/10'], ['Orçamento', 'doing', 'Aguardando supervisor · em paralelo ao projeto v2'], ['Pedido de investimento (SES)', 'doing', 'Aguardando liberação · processo 2026/SES-0412'], ['Cronograma', 'wait', 'Começa após a liberação'], ['Execução + diário de obra', 'wait', '—'], ['Medição', 'wait', '—']]
-    return (<>
-      <div className="grid c2">
-        <div className="card"><h2>Linha do tempo das fases <span className="hint">podem rodar em paralelo, voltar ou ser puladas</span></h2>
-          <div className="tl">{ph.map(x => (
-            <div key={x[0]} className={'ph ' + (x[1] === 'wait' ? '' : x[1])}>
-              <b>{x[0]} {x[1] === 'back' ? <span className="bd d">refeito</span> : x[1] === 'doing' ? <span className="bd w">em andamento</span> : x[1] === 'done' ? <span className="bd ok">concluída</span> : null}</b>
-              <small>{x[2]}</small></div>))}</div></div>
-        <div>
-          <div className="card"><h2>Financeiro do serviço</h2>
-            <div className="st"><span>Solicitado</span><div className="bar"><i style={{ width: '100%' }} /></div><b className="mono">{fmt(27800)}</b></div>
-            {['Liberado', 'Comprometido', 'Pago'].map(x => <div className="st" key={x}><span>{x}</span><div className="bar"><i style={{ width: 0 }} /></div><b>—</b></div>)}</div>
-          <div className="card"><h2>Pesquisa de preço · Trena a laser <span className="bd ok">concluída</span></h2>
-            <div className="st"><span>1 · SINAPI</span><span className="bd d">não encontrado</span></div>
-            <div className="st"><span>2 · GoInfra</span><span className="bd d">não encontrado</span></div>
-            <div className="st"><span>3 · Comp. própria</span><span className="bd d">não encontrada</span></div>
-            <div className="st"><span>4 · Mercado</span><span className="bd ok">3 cotações</span></div>
-            <table><tbody>
-              <tr><td>Fornecedor A</td><td className="num"><b style={{ color: 'var(--lime)' }}>{fmt(389.9)}</b></td><td><span className="bd l">menor valor</span></td></tr>
-              <tr><td>Fornecedor B</td><td className="num">{fmt(412)}</td><td></td></tr>
-              <tr><td>Fornecedor C</td><td className="num">{fmt(455.5)}</td><td></td></tr></tbody></table></div>
-        </div>
-      </div>
-    </>)
-  }
-
+  const mesTxt = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
   const titulo = { painel: `Painel · ${pr.n}`, aprov: 'Aprovações', medicao: 'Medições', servicos: 'Serviços especiais', diario: 'Diário de obra' }[v]
-  const sub = { painel: 'Setembro/2026 · CRER · dados ilustrativos', aprov: 'Fluxo: Analistas → Supervisor → Gerente. O diretor assina o pagamento fora do sistema.', medicao: 'Medição mensal, conferência e parcelas de pagamento', servicos: 'Cadastro, validação e acompanhamento', diario: 'Lançamento diário e histórico por mês' }[v]
+  const sub = { painel: `${mesTxt} · CRER`, aprov: 'Fluxo: Analistas → Supervisor → Gerente. O diretor assina o pagamento fora do sistema.', medicao: 'Medição mensal, conferência e parcelas de pagamento', servicos: 'Cadastro, validação e acompanhamento', diario: 'Lançamento diário e histórico por mês' }[v]
 
   return (
     <div className="app">
       <aside>
         <div className="logo">Manut<b>Hub</b><small>CRER · Infraestrutura</small></div>
         {isAdmin && <div><label>Ver como</label>
-          <select value={prof} onChange={e => { setProf(e.target.value); setView('painel') }}>
+          <select value={prof} onChange={e => { setProf(e.target.value); go('painel') }}>
             {Object.keys(P).map(k => <option key={k} value={k}>{P[k].n}</option>)}</select></div>}
         <nav>{pr.nav.map(n => (
-          <button key={n} className={v === n ? 'on' : ''} onClick={() => setView(n)}>{NL[n]}
-            {n === 'aprov' && <span className="bd l" style={{ marginLeft: 'auto' }}>{db.apr.filter(minhaDb).length}</span>}</button>))}</nav>
+          <button key={n} className={v === n ? 'on' : ''} onClick={() => go(n)}>{NL[n]}
+            {n === 'aprov' && <span className="bd l" style={{ marginLeft: 'auto' }}>{nMinhas}</span>}</button>))}</nav>
         <div className="user"><div className="av">{pr.i}</div>
           <div>{membro.nome || email}<br /><span>{pr.n}</span><br /><button className="out" onClick={() => supabase.auth.signOut()}>Sair</button></div></div>
       </aside>
       <main>
         <h1>{titulo}</h1><div className="sub">{sub}</div>
         {db.erro && <div className="al">Erro ao ler o banco: {db.erro}</div>}
-        {db.ok && !db.par && <div className="al w">Sem linha em parametros_financeiros para este mês.</div>}
         {v === 'painel' && Painel()}
         {v === 'aprov' && (<>
           <div className="card"><h2>Aguardando você</h2>{aprDb('minhas')}</div>
